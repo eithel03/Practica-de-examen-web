@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions 
+    name="DataCareSOAP"
+    targetNamespace="http://example.com/datacare"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://example.com/datacare"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <types>
+    <xsd:schema targetNamespace="http://example.com/datacare">
+
+      <!-- hola -->
+      <xsd:element name="holaRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="nombre" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="holaResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="saludo" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- sumar -->
+      <xsd:element name="sumarRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="a" type="xsd:int"/>
+            <xsd:element name="b" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="sumarResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="resultado" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- getPaciente -->
+      <xsd:element name="getPacienteRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="getPacienteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:int"/>
+            <xsd:element name="nombre" type="xsd:string"/>
+            <xsd:element name="edad" type="xsd:int"/>
+            <xsd:element name="direccion" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+    </xsd:schema>
+  </types>
+
+  <!-- mensajes -->
+  <message name="holaRequest"><part name="parameters" element="tns:holaRequest"/></message>
+  <message name="holaResponse"><part name="parameters" element="tns:holaResponse"/></message>
+
+  <message name="sumarRequest"><part name="parameters" element="tns:sumarRequest"/></message>
+  <message name="sumarResponse"><part name="parameters" element="tns:sumarResponse"/></message>
+
+  <message name="getPacienteRequest"><part name="parameters" element="tns:getPacienteRequest"/></message>
+  <message name="getPacienteResponse"><part name="parameters" element="tns:getPacienteResponse"/></message>
+
+  <!-- operaciones -->
+  <portType name="DataCarePortType">
+    <operation name="hola">
+      <input message="tns:holaRequest"/>
+      <output message="tns:holaResponse"/>
+    </operation>
+
+    <operation name="sumar">
+      <input message="tns:sumarRequest"/>
+      <output message="tns:sumarResponse"/>
+    </operation>
+
+    <operation name="getPaciente">
+      <input message="tns:getPacienteRequest"/>
+      <output message="tns:getPacienteResponse"/>
+    </operation>
+  </portType>
+
+  <!-- binding -->
+  <binding name="DataCareBinding" type="tns:DataCarePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <operation name="hola">
+      <soap:operation soapAction="hola"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+
+    <operation name="sumar">
+      <soap:operation soapAction="sumar"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+
+    <operation name="getPaciente">
+      <soap:operation soapAction="getPaciente"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+  </binding>
+
+  <!-- servicio -->
+  <service name="DataCareService">
+    <documentation>Servicio SOAP DataCare con hola, sumar y getPaciente</documentation>
+    <port name="DataCarePort" binding="tns:DataCareBinding">
+      <soap:address location="http://localhost:3000/soap"/>
+    </port>
+  </service>
+
+</definitions>
